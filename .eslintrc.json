@@ -1,0 +1,105 @@
+{
+  "env": {
+    "browser": true
+  },
+  "globals": {
+    "document": true,
+    "window": true
+  },
+  "extends": "airbnb",
+  "plugins": [
+    "react"
+  ],
+  "parser": "babel-eslint",
+  "rules": {
+    "max-len": [
+      "error",
+      {
+        "code": 130,
+        "tabWidth": 2,
+        "ignoreTrailingComments": true,
+        "ignoreComments": true,
+        "ignoreStrings": true
+      }
+    ],
+    "comma-dangle": [
+      0
+    ],
+    "import/prefer-default-export": [
+      0
+    ],
+    "no-console": [
+      0
+    ],
+    "no-underscore-dangle": [
+      0
+    ],
+    "no-useless-escape": [
+      0
+    ],
+    "no-use-before-define": [
+      0
+    ],
+    "no-trailing-spaces": [
+      "error",
+      {
+        "skipBlankLines": true
+      }
+    ],
+    "no-multiple-empty-lines": [
+      "error",
+      {
+        "max": 1,
+        "maxBOF": 1
+      }
+    ],
+    "no-useless-constructor": [
+      0
+    ],
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".js",
+          ".jsx"
+        ]
+      }
+    ],
+    "react/jsx-first-prop-new-line": [
+      0
+    ],
+    "react/jsx-indent-props": [
+      0
+    ],
+    "react/forbid-prop-types": [
+      0
+    ],
+    "react/jsx-closing-bracket-location": [
+      1,
+      {
+        "selfClosing": "props-aligned",
+        "nonEmpty": "after-props"
+      }
+    ],
+    "react/no-access-state-in-setstate": [
+      0
+    ],
+    "react/jsx-indent": [
+      2,
+      2
+    ],
+    "react/jsx-one-expression-per-line": [
+      0
+    ],
+    "react/button-has-type": [
+      0
+    ],
+    "react/destructuring-assignment": [
+      1,
+      "always",
+      {
+        "ignoreClassFields": true
+      }
+    ]
+  }
+}
