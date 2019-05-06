@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import gitService from './services/requestGit';
-import BASE_API_ENDPOINT from './constants';
 import User from './components/User';
+import fetchData from './actions/fetchData';
+import ErrorComponent from './components/ErrorComponent';
 
 class App extends Component {
-  state = {
-    input: ''
-  }
+  state = { input: '' }
 
   updateState = (value) => {
     this.setState({
@@ -21,74 +19,15 @@ class App extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-
     const { input: user } = this.state;
-    const userUrl = `${BASE_API_ENDPOINT}/users/${user}`;
-    const reposUrl = `${userUrl}/repos`;
 
-    this.handleError({ clean: true });
-    this.fetchData(userUrl, 'user');
-    this.fetchData(reposUrl, 'repo');
-  }
-
-  fetchData = (uri, handler) => {
-    const handlers = {
-      user: this.handleUserData,
-      repo: this.handleRepoData
-    };
-
-    gitService(uri)
-      .then(handlers[handler])
-      .catch(this.handleError);
-  }
-
-  handleError = ({ clean }) => {
-    const error = 'Does not exist';
-
-    this.updateState({
-      user: null,
-      error: {
-        data: clean ? !clean : error,
-        class: 'error'
-      }
-    });
-  }
-
-  handleUserData = (data) => {
-    const {
-      login,
-      name,
-      bio,
-      avatar_url: avatar = 'No avatar'
-    } = data;
-
-    const newState = {
-      user: {
-        login,
-        name,
-        bio,
-        avatar
-      },
-
-    };
-
-    this.updateState(newState);
-  }
-
-  handleRepoData = (data) => {
-    const { user } = this.state;
-
-    this.updateState({
-      user: {
-        ...user,
-        repos: data
-      }
-    });
+    fetchData(user)
+      .then(this.updateState);
   }
 
   render() {
     const {
-      input, error = {}, ...userProps
+      input, error, ...userProps
     } = this.state;
 
     return (
@@ -111,12 +50,7 @@ class App extends Component {
           </div>
         </form>
         {
-          !error.data
-          && <User {...userProps} />
-        }
-        {
-          error.data
-          && <div id="error" className={error.class} dangerouslySetInnerHTML={{ __html: error.data }} />
+          error ? <ErrorComponent error={error} /> : <User {...userProps} />
         }
       </div>
     );
