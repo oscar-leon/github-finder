@@ -1,60 +1,50 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import User from './components/User';
 import fetchData from './actions/fetchData';
 import ErrorComponent from './components/ErrorComponent';
 
-class App extends Component {
-  state = { input: '' }
+const App = () => {
+  const [userInput, setUserInput] = useState('');
+  const [store, setStore] = useState({});
 
-  updateState = (value) => {
-    this.setState({
-      ...value
-    });
+  function handleChange(e) {
+    const { value } = e.target;
+    setUserInput(value);
   }
 
-  handleChange = (e) => {
-    const { value: input } = e.target;
-    this.updateState({ input });
-  }
-
-  handleSubmit = (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
-    const { input: user } = this.state;
 
-    fetchData(user)
-      .then(this.updateState);
+    fetchData(userInput)
+      .then(setStore);
   }
 
-  render() {
-    const {
-      input, error, ...userProps
-    } = this.state;
+  const { error, ...userProps } = store;
 
-    return (
-      <div className="body-container">
-        <form id="search-form">
-          <div className="form-container">
-            <div className="input-container">
-              <input
-                value={input}
+  return (
+    <div className="body-container">
+      <form id="search-form" onSubmit={handleSubmit}>
+        <div className="form-container">
+          <div className="input-container">
+            <input
+                value={userInput}
                 type="text"
                 placeholder="Search username..."
                 name="username"
                 required
-                onChange={this.handleChange}
+                onChange={handleChange}
                 />
-            </div>
-            <div className="button-container">
-              <button id="search-button" type="button" onClick={this.handleSubmit}>Search</button>
-            </div>
           </div>
-        </form>
-        {
+          <div className="button-container">
+            <button id="search-button" type="button" onClick={handleSubmit}>Search</button>
+          </div>
+        </div>
+      </form>
+      {
           error ? <ErrorComponent error={error} /> : <User {...userProps} />
         }
-      </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default App;
