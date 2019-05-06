@@ -1,52 +1,54 @@
 import React, { Component } from 'react';
 import gitService from './services/requestGit';
+import BASE_API_ENDPOINT from './constants';
 
 class App extends Component {
  state = {
    input: '',
-   userHtml: '',
-   avatar: '',
-   repos: '',
    error: {}
+ }
+
+ updateState = (value) => {
+   this.setState({
+     ...value
+   });
  }
 
   handleChange = (e) => {
     const { value: input } = e.target;
-
-    this.setState({
-      input
-    });
+    this.updateState({ input });
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const username = this.state.input;
+    const { input: user } = this.state;
+    const userUrl = `${BASE_API_ENDPOINT}/users/${user}`;
+    const reposUrl = `${userUrl}/repos`;
 
-    const userUrl = `https://api.github.com/users/${username}`;
-    const reposUrl = `https://api.github.com/users/${username}/repos`;
+    this.fetchData(userUrl, 'user');
+    this.fetchData(reposUrl, 'repo');
+  }
 
-    gitService(userUrl)
-      .then(this.handleUserData)
-      .catch(this.handleError);
+  fetchData = (uri, handler) => {
+    const handlers = {
+      user: this.handleUserData,
+      repo: this.handleRepoData
+    };
 
-    gitService(reposUrl)
-      .then(this.handleRepoData)
+    gitService(uri)
+      .then(handlers[handler])
       .catch(this.handleError);
   }
 
   handleError = () => {
     const error = 'Does not exist';
 
-    this.setErrorData({
-      data: error,
-      class: 'error'
-    });
-  }
-
-  setErrorData = (error) => {
-    this.setState({
-      error
+    this.updateState({
+      error: {
+        data: error,
+        class: 'error'
+      }
     });
   }
 
@@ -64,20 +66,12 @@ class App extends Component {
 
     const userHTML = dataLogin + fullName + userBio;
 
-    this.setUserData(userHTML);
-    this.setAvatarData(avatar);
-  }
-
-  setUserData = (html) => {
-    this.setState(
-      { userHtml: html }
-    );
-  }
-
-  setAvatarData = (avatar) => {
-    this.setState({
+    const newState = {
+      userHTML,
       avatar
-    });
+    };
+
+    this.updateState(newState);
   }
 
   handleRepoData = (data) => {
@@ -92,23 +86,20 @@ class App extends Component {
       repoHtml += repoCont;
     });
 
-    this.setRepoData(repoHtml);
-  }
-
-  setRepoData = (repos) => {
-    this.setState({
-      repos
-    });
+    this.updateState({ repos: repoHtml });
   }
 
   render() {
+    const {
+      input, avatar, userHtml, repos, error
+    } = this.state;
     return (
       <div className="body-container">
         <form id="search-form">
           <div className="form-container">
             <div className="input-container">
               <input
-              value={this.state.input}
+              value={input}
               type="text"
               placeholder="Search username..."
               name="username"
@@ -124,13 +115,13 @@ class App extends Component {
 
         <div id="user">
           <div id="user-img">
-            <img id="user-avatar" src={this.state.avatar} alt="" />
+            <img id="user-avatar" src={avatar} alt="" />
           </div>
-          <div id="user-info" dangerouslySetInnerHTML={{ __html: this.state.userHtml }} />
+          <div id="user-info" dangerouslySetInnerHTML={{ __html: userHtml }} />
         </div>
-        <div id="repos" dangerouslySetInnerHTML={{ __html: this.state.repos }} />
+        <div id="repos" dangerouslySetInnerHTML={{ __html: repos }} />
 
-        <div id="error" className={this.state.error.class} dangerouslySetInnerHTML={{ __html: this.state.error.data }} />
+        <div id="error" className={error.class} dangerouslySetInnerHTML={{ __html: error.data }} />
       </div>
     );
   }
