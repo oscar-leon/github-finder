@@ -2,7 +2,7 @@ body{
 	background-color: #F0F0F0;
 }
 
-#body-container{
+.body-container{
 	margin: 10vh auto;
 	width: 30%;
 	border: white 1px solid;
