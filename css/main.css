@@ -1,6 +1,7 @@
 body{
 	background-color: #F0F0F0;
 }
+
 .body-container{
 	margin: 10vh auto;
 	width: 30%;
@@ -10,13 +11,16 @@ body{
 	box-shadow: 10px 10px 30px #8e8e7e;
 	background-color: white;
 }
+
 .form-container{
 	display: flex;
 }
+
 .input-container{
 	flex-grow: 3;
 	margin-right: 5%;
 }
+
 input{
 	width: 100%;
 	border-radius: 3px;
@@ -25,9 +29,11 @@ input{
 	padding-left: 3%;
 	font-weight: bold;
 }
+
 .button-container{
 	min-width: 15%;
 }
+
 button{
 	width: 100%;
 	height: 100%;
@@ -36,42 +42,52 @@ button{
 	font-weight: bold;
 	border: 2px solid #F0F0F0;
 }
+
 .result{
 	background-color: red;
 }
+
 #user{
 	padding-top: 5%;
 	display: flex;
 	align-items: center;
 }
+
 #user-img {
 	max-width: 35%;
 	display: inline-block;
 }
+
 #user-img img{
 	max-width: 100%;
 	max-height: 100%;
 	border-radius: 8px;
 	display: inline-block;
 }
+
 #user-info{
 	height: 100%;
 	flex-wrap: wrap;
 	max-width: 50%;
 }
+
 #user-info i{
 	font-style: italic;
 }
+
 #user  div> p, h1{
 	padding-left: 20px;
 }
+
 #user-info h1{
 	width: 100%;
 	font-size: 50px;
 }
+
 #user-info p{
 	font-size: 20px;
 }
+
 .error {
 	background: #F9DEDE;
 	color: #A73F3E;
@@ -79,35 +95,43 @@ button{
 	border: 1px solid #D7BBBB;
 	border-radius: 3px;
 }
+
 #repos > h3:first-child{
 	padding: 30px 10px 10px 0;
 	border-bottom: solid black 2px;
 }
+
 #repos h3{
 	font-size: 20px;
 	padding: 10px;
 }
+
 .repo-info {
 	border-bottom: solid grey 2px;
 	padding: 20px;
 }
+
 .repo-name{
 	display: inline;
 }
+
 .repo-name h3{
 	display: inherit;
 }
+
 .repo-info p{
 	display: inline-block;
 	float: right;
 }
+
 @media (max-width: 1100px) {
-  .body-container{
+  #body-container{
 	width: 50%;
   }
 }
+
 @media (max-width: 900px) {
-  .body-container{
+  #body-container{
 	width: 90%;
 	margin: 1vh auto;
   }
